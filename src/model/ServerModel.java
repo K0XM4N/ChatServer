@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import lombok.*;
+import service.ClientService;
 
 /**
  * Created by Krzysztof on 2017-01-25.
@@ -40,7 +41,16 @@ public class ServerModel implements Runnable{
             clientSocket = serverSocket.accept();
             System.out.println("Client has connected to the server.");
 
+            if (clientSocket != null){
 
+                ClientService client = ClientService.getInstance();
+                client.setClientSocket(clientSocket);
+
+                client.addClientWriterToList();
+                client.getUsernameFromMessage();
+                client.addUsernameToOnlineUsers();
+
+            }
         }
 
     }
