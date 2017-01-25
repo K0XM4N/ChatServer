@@ -81,6 +81,7 @@ public class ClientService {
         int random = (int) (Math.random() * 10000);
         String guestName = "Guest" + Integer.toString(random);
         return guestName;
+
     }
 
     public void addUsernameToOnlineUsers() throws IOException {
