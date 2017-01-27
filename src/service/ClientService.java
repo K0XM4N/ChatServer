@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ClientService {
 
-    private List<PrintWriter> clientWriters;
+    private List<Socket> clientSockets;
     private List<String> onlineUsers;
 
     private InputStreamReader inputStream;
@@ -30,7 +30,7 @@ public class ClientService {
     private static ClientService client;
 
     private ClientService(){
-        clientWriters = new LinkedList<PrintWriter>();
+        clientSockets = new LinkedList<Socket>();
         onlineUsers = new LinkedList<String>();
     }
 
@@ -46,10 +46,9 @@ public class ClientService {
 
     public void addClientWriterToList() throws IOException {
 
-        clientWriter = new PrintWriter(clientSocket.getOutputStream());
-        clientWriters.add(clientWriter);
+        clientSockets.add(clientSocket);
 
-        System.out.println("Avaible client writers: " + clientWriters.size());
+        System.out.println("Avaible client sockets: " + clientSockets.size());
 
     }
 
@@ -58,20 +57,8 @@ public class ClientService {
         inputStream = new InputStreamReader(clientSocket.getInputStream());
         clientReader = new BufferedReader(inputStream);
 
-        if (clientReader.ready()){
-
-            String messageFromClient = clientReader.readLine();
-            if (messageFromClient.contains(">")) {
-                int userIndex = messageFromClient.indexOf('>') - 1;
-                username = messageFromClient.substring(0,userIndex);
-
-                if (username.equals("Guest")){
-                    username = randomizeGuestName();
-                }
-            }
-            else{
-                username = messageFromClient;
-            }
+        if ((username = clientReader.readLine()).equals("Guest")){
+            username = "Guest".concat(randomizeGuestName());
         }
 
     }
@@ -79,7 +66,7 @@ public class ClientService {
     private String randomizeGuestName() {
 
         int random = (int) (Math.random() * 10000);
-        String guestName = "Guest" + Integer.toString(random);
+        String guestName = Integer.toString(random);
         return guestName;
 
     }
