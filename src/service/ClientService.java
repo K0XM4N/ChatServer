@@ -85,4 +85,8 @@ public class ClientService {
 
     }
 
+    public void sendOnlineUsersToClient(){
+
+    }
+
 }
