@@ -1,6 +1,7 @@
 package service;
 
 import lombok.Cleanup;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.io.*;
@@ -13,6 +14,7 @@ import java.util.List;
  */
 public class ClientService {
 
+    @Getter
     private List<Socket> clientSockets;
     private List<String> onlineUsers;
 

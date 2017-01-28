@@ -9,6 +9,8 @@ import java.net.Socket;
 import lombok.*;
 import service.ClientService;
 
+import javax.sound.midi.Receiver;
+
 /**
  * Created by Krzysztof on 2017-01-25.
  */
@@ -17,6 +19,7 @@ public class ServerModel implements Runnable{
 
 
     private Socket clientSocket;
+    private ReceiverModel receiverModel;
     @Setter
     private volatile boolean continueListeningForClients = true;
 
@@ -51,11 +54,19 @@ public class ServerModel implements Runnable{
                 client.addUsernameToOnlineUsers();
                 client.sendOnlineUsersToClient();
 
+                startReceivingMessagesFromClient();
             }
         }
 
     }
 
+    private void startReceivingMessagesFromClient() throws IOException {
+
+        receiverModel = new ReceiverModel(clientSocket);
+        Thread messageReceiver = new Thread(receiverModel);
+        messageReceiver.start();
+
+    }
 
 
 
