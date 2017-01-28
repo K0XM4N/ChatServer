@@ -49,6 +49,7 @@ public class ServerModel implements Runnable{
                 client.addClientWriterToList();
                 client.getUsernameFromMessage();
                 client.addUsernameToOnlineUsers();
+                client.sendOnlineUsersToClient();
 
             }
         }
