@@ -52,7 +52,9 @@ public class ReceiverModel implements Runnable {
         while (true){
             String message = null;
             if ((message = getMessageFromClient()) != null){
-
+                SenderModel messageSender = new SenderModel();
+                System.out.println(message);
+                messageSender.sendMessageToClients(message);
             }
 
         }
